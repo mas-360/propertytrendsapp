@@ -1,3 +1,4 @@
 streamlit
 Image
 matplotlib
+seaborn
