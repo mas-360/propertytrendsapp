@@ -45,7 +45,7 @@ st.set_page_config(
 )
 
 #---logo
-img_logo = Image.open("C:/Users/27823/datastories/propertytrends/logo.PNG")
+img_logo = Image.open("images/logo.PNG")
 with st.container():
     image_col, txt_col = st.columns(2)
     with image_col:
