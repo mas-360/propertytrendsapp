@@ -44,6 +44,20 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
+st.markdown(
+    """
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EV745V2W3T"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-EV745V2W3T');
+    </script>
+    """,
+    unsafe_allow_html=True
+)
+
+
 #---logo
 img_logo = Image.open("images/logo.PNG")
 with st.container():
