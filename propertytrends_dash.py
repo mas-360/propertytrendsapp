@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import streamlit as st
 from PIL import Image
+from datetime import datetime
 
 # Setup for Storytelling (matplotlib):
 plt.rcParams['font.family'] = 'monospace'
@@ -44,31 +45,9 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-st.markdown(
-    """
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EV745V2W3T"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-EV745V2W3T');
-    </script>
-    """,
-    unsafe_allow_html=True
-)
-
-
-#---logo
-img_logo = Image.open("images/logo.PNG")
-with st.container():
-    image_col, txt_col = st.columns(2)
-    with image_col:
-        st.image(img_logo)
-    with txt_col:
-        st.header('Appreciation of residential properties in South Africa')
 
 # Header:
-#st.header('Appreciation of residential properties in South Africa')
+st.header('Appreciation of residential properties in South Africa')
 
 st.sidebar.markdown(''' > **How to use this dashboard:**
 
@@ -114,7 +93,7 @@ chart_1, ax = plt.subplots(figsize=(3, 4.125))
 # Background:
 sns.stripplot(
     data= other_cities,
-    y = 'Annual_Appreciation',
+    y = 'Annual_Appreciation(%)',
     color = 'white',
     jitter=0.85,
     size=8,
@@ -125,7 +104,7 @@ sns.stripplot(
 # Highlight:
 sns.stripplot(
     data= selected_city,
-    y = 'Annual_Appreciation',
+    y = 'Annual_Appreciation(%)',
     color = '#00FF7F',
     jitter=0.15,
     size=12,
@@ -135,9 +114,9 @@ sns.stripplot(
 )
 
 # Showing up position measures:
-avg_annual_val = property_trends_df['Annual_Appreciation'].median()
-q1_annual_val = np.percentile(property_trends_df['Annual_Appreciation'], 25)
-q3_annual_val = np.percentile(property_trends_df['Annual_Appreciation'], 75)
+avg_annual_val = property_trends_df['Annual_Appreciation(%)'].median()
+q1_annual_val = np.percentile(property_trends_df['Annual_Appreciation(%)'], 25)
+q3_annual_val = np.percentile(property_trends_df['Annual_Appreciation(%)'], 75)
 
 # Plotting lines (reference):
 ax.axhline(y=avg_annual_val, color='#f77f00', linestyle='--', lw=0.75)
@@ -162,13 +141,13 @@ plt.legend(loc='center', bbox_to_anchor=(0.5, -0.1), ncol=2, framealpha=0, label
 plt.tight_layout()  
 
 # CHART 2: Price (R$) by m²:
-chart_2, ax = plt.subplots(figsize=(3, 3.95))
+chart_2, ax = plt.subplots(figsize=(3, 4.125))
 # Background:
 sns.stripplot(
     data= other_cities,
     y = 'Avg_SalePrice',
     color = 'white',
-    jitter=0.95,
+    jitter=0.85,
     size=8,
     linewidth=1,
     edgecolor='gainsboro',
@@ -206,6 +185,7 @@ ax.fill_betweenx([q1_price_m2, q3_price_m2], -2, 1, alpha=0.2, color='gray')
 # to set the x-axis limits to show the full range of the data:
 ax.set_xlim(-1, 1)
 
+
 # Axes and titles:
 plt.xticks([])
 plt.ylabel('Sales Price (Millions)')
@@ -225,20 +205,20 @@ with right:
 # Showing up the numerical data (as a dataframe):
 st.dataframe(
     property_trends_df.query('City == @your_city & Year ==@year_')[[
-      'City', 'Annual_Appreciation', 
-      'NumberofSales']]
+      'City', 'Annual_Appreciation(%)', 
+      'Number_of_Sales']], hide_index=True
 )
 
 
+def get_last_update_date():
+    now = datetime.now()
+    return now.strftime("%Y-%m-%d")
+
 st.markdown('---')
-# Adding some reference indexes:
+# Adding some reference and last update:
+st.write(f"Last Update: {get_last_update_date()}")    
+    
 st.markdown('''
-Source: Data based on market trends from Property24 (2014 - 2023)
+Source: Data based on market trends from Property24 (2014 - 2023)  
+Contact: masinsight360@gmail.com
 ''')
-
-# Authorship:
-
-
-# here you can add the authorship and useful links (e.g., Linkedin, GitHub, and so forth)
-
-# --- (End of the App)
