@@ -220,5 +220,5 @@ st.write(f"Last Update: {get_last_update_date()}")
     
 st.markdown('''
 Source: Data based on market trends from Property24 (2014 - 2023)  
-Contact: masinsight360@gmail.com
+By: Anthea Sago
 ''')
